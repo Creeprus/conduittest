@@ -14,17 +14,18 @@ class AppNotesConttoller extends ResourceController {
    
   @Operation.get()
   Future<Response> getNotes(
-     @Bind.body() Note note,
+       @Bind.query('page') int page,
+    @Bind.query('amount') int amount,
   ) async {
     try {
     
    
       // Получаем id пользователя
       // Была создана новая функция ее нужно реализоваться для просмотра функции нажмите на картинку
-      final id = note.id;
+      final id = amount;
       // Получаем данные пользователя по его id
       final qGetAll= await Query<Note>(managedContext)
-     ..fetchLimit=id!;
+     ..fetchLimit=id;
       final notes=await qGetAll.fetch();
 
 //     var map2 = {};
