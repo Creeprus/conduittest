@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:conduit/conduit.dart';
+import 'package:conduittest/controllers/app_history_controller.dart';
 import 'package:conduittest/controllers/app_note_controller.dart';
 import 'package:conduittest/controllers/app_notes_controller.dart';
 import 'package:conduittest/controllers/app_token_contoller.dart';
@@ -33,7 +34,10 @@ class AppService extends ApplicationChannel {
         .link(() => AppNotesController(managedContext))
     ..route('user')
         .link(AppTokenContoller.new)!
-        .link(() => AppUserController(managedContext));
+        .link(() => AppUserController(managedContext))
+    ..route('history')
+        .link(AppTokenContoller.new)!
+        .link(() => AppHistoryController(managedContext));
 
   PersistentStore _initDatabase() {
     final username = Platform.environment['DB_USERNAME'] ?? 'postgres';

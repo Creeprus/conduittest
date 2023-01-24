@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:conduit/conduit.dart';
+import 'package:conduittest/model/history.dart';
 import 'package:conduittest/model/note.dart';
 
 import '../utils/app_response.dart';
@@ -29,6 +30,16 @@ class AppNoteController extends ResourceController {
         ..values.noteDateChanged =
             note.noteDateChanged ?? fNote!.noteDateChanged
         ..values.noteCategory = note.noteCategory ?? fNote!.noteCategory;
+           await managedContext.transaction((transaction) async {
+        final qHistoryAdd = Query<History>(transaction)
+          ..values.noteNameChange = note.noteName
+          ..values.date = DateTime.now()
+          ..values.operation="The note was updated";
+     
+
+        await qHistoryAdd.insert();
+    
+      });
       await qUpdateUser.updateOne();
       final findUser = await managedContext.fetchObjectWithID<Note>(id);
       findUser!.removePropertiesFromBackingMap(['refreshToken', 'accessToken']);
@@ -56,12 +67,22 @@ class AppNoteController extends ResourceController {
           ..values.noteName = note.noteName
           ..values.noteDateCreated = note.noteDateCreated
           ..values.noteDateChanged = note.noteDateChanged
-          ..values.noteCategory = note.noteCategory;
+          ..values.noteCategory = note.noteCategory
+          ..values.active=1;
 
         final createdUser = await qCreateNote.insert();
         id = createdUser.id!;
       });
+   await managedContext.transaction((transaction) async {
+        final qHistoryAdd = Query<History>(transaction)
+          ..values.noteNameChange = note.noteName
+          ..values.date = DateTime.now()
+          ..values.operation="The note was added";
+     
 
+        await qHistoryAdd.insert();
+    
+      });
       final findUser = await managedContext.fetchObjectWithID<Note>(id);
 
       findUser!.removePropertiesFromBackingMap(['refreshToken', 'accessToken']);
@@ -89,6 +110,16 @@ class AppNoteController extends ResourceController {
         ..where((element) => element.id)
             .equalTo(id); 
 
+   await managedContext.transaction((transaction) async {
+        final qHistoryAdd = Query<History>(transaction)
+          ..values.noteNameChange = note.noteName
+          ..values.date = DateTime.now()
+          ..values.operation="The note was deleted";
+     
+
+        await qHistoryAdd.insert();
+    
+      });
       await qDeleteUser.delete();
 
       return AppResponse.ok(

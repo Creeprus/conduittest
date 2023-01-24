@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:conduit/conduit.dart';
 
 class Note extends ManagedObject<_Note> implements _Note {}
@@ -13,4 +15,6 @@ class _Note {
   String? noteDateCreated;
   @Column(unique: false, indexed: true)
   String? noteDateChanged;
+  @Column(unique:false, indexed:true)
+  int? active;
 }
