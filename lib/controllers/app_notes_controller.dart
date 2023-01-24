@@ -17,10 +17,20 @@ class AppNotesController extends ResourceController {
   Future<Response> getNotes(
     @Bind.query('page') int page,
     @Bind.query('amount') int amount,
+        @Bind.query('filter') String filter
   ) async {
     try {
+         QuerySortOrder order=QuerySortOrder.descending;
+      if(filter=="true")
+      {
+        order=QuerySortOrder.ascending;
+      }
+      else{
+        order=QuerySortOrder.descending;
+      }
       final id = amount;
       final qGetAll = await Query<Note>(managedContext)
+         ..sortBy((x) => x.noteName, order)
         ..offset = page
         ..fetchLimit = id;
 
@@ -46,11 +56,14 @@ class AppNotesController extends ResourceController {
   Future<Response> setActiveNote(
     @Bind.query('active') int active,
     @Bind.query('id') int id,
+
   
   ) async {
       try{
       final fNote = await managedContext.fetchObjectWithID<Note>(id);
+   
       final qUpdateUser = Query<Note>(managedContext)
+     
         ..where((element) => element.id)
             .equalTo(id) 
        ..values.active=active;

@@ -12,10 +12,20 @@ class AppHistoryController extends ResourceController {
   Future<Response> getHistory(
     @Bind.query('page') int page,
     @Bind.query('amount') int amount,
+     @Bind.query('filter') String filter
   ) async {
     try {
+        QuerySortOrder order=QuerySortOrder.descending;
+      if(filter=="true")
+      {
+        order=QuerySortOrder.ascending;
+      }
+      else{
+        order=QuerySortOrder.descending;
+      }
       final id = amount;
       final qGetAll = await Query<History>(managedContext)
+       ..sortBy((x) => x.noteNameChange, order)
         ..offset = page
         ..fetchLimit = id;
 
