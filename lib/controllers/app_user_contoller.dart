@@ -6,12 +6,12 @@ import 'package:conduittest/utils/app_utils.dart';
 import '../model/user.dart';
 import '../utils/app_response.dart';
 
-class AppUserConttolelr extends ResourceController {
-  AppUserConttolelr(this.managedContext);
+class AppUserController extends ResourceController {
+  AppUserController(this.managedContext);
 
   final ManagedContext managedContext;
 
- @Operation.get()
+  @Operation.get()
   Future<Response> getProfile(
     @Bind.header(HttpHeaders.authorizationHeader) String header,
   ) async {

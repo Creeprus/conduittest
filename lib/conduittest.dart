@@ -24,14 +24,17 @@ class AppService extends ApplicationChannel {
 
   @override
   Controller get entryPoint => Router()
-  ..route('token/[:refresh]').link(() => AppAuthController(managedContext))
-   ..route('note').link(AppTokenContoller.new )!
-   .link(() => AppNoteConttolelr(managedContext))
-      ..route('notes').link(AppTokenContoller.new )!
-         .link(() => AppNotesConttoller(managedContext))
-  ..route('user').link(AppTokenContoller.new )!
-  .link(() => AppUserConttolelr(managedContext));
-  
+    ..route('token/[:refresh]').link(() => AppAuthController(managedContext))
+    ..route('note')
+        .link(AppTokenContoller.new)!
+        .link(() => AppNoteController(managedContext))
+    ..route('notes')
+        .link(AppTokenContoller.new)!
+        .link(() => AppNotesController(managedContext))
+    ..route('user')
+        .link(AppTokenContoller.new)!
+        .link(() => AppUserController(managedContext));
+
   PersistentStore _initDatabase() {
     final username = Platform.environment['DB_USERNAME'] ?? 'postgres';
     final password = Platform.environment['DB_PASSWORD'] ?? '123';
