@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:conduit/conduit.dart';
 
+
 class Note extends ManagedObject<_Note> implements _Note {}
 
 class _Note {

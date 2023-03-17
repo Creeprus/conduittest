@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:conduit/conduit.dart';
 import 'package:conduittest/model/model_responce.dart';
 import 'package:conduittest/model/user.dart';
+import 'package:conduittest/utils/app_response.dart';
 import 'package:jaguar_jwt/jaguar_jwt.dart';
 
 
@@ -88,7 +89,7 @@ class AppAuthController extends ResourceController {
           data: userData!.backing.contents,
           message: 'Пользователь успешно зарегистрировался'));
     } on QueryException catch (e) {
-      return Response.serverError(body: ModelResponse(message: e.message));
+      return AppResponse.serverError( e.message);
     }
   }
 
