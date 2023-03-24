@@ -1,5 +1,4 @@
 import 'package:conduit/conduit.dart';
-import 'package:conduittest/conduittest.dart' as conduittest;
 import 'dart:io';
 
 import 'package:conduittest/conduittest.dart';

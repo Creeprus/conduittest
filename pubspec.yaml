@@ -7,8 +7,8 @@ environment:
   sdk: '>=2.18.6 <3.0.0'
 
 dependencies:
+  conduit: ^4.1.6
   path: ^1.8.0
-  conduit: ^4.1.5
   jaguar_jwt: ^3.0.0
 
 
